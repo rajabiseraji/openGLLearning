@@ -56,6 +56,19 @@ int main() {
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 	glCompileShader(fragmentShader);
 
+	//linking shaders
+	unsigned int shaderProgram;
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	glUseProgram(shaderProgram);
+	//Every shader and rendering call after glUseProgram will now use this program object (and thus the shaders).
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+
 
 	return 0;
 }
