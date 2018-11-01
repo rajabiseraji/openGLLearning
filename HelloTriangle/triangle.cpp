@@ -3,6 +3,20 @@
 
 #include <iostream>
 
+const char* vertexShaderSource = "#version 330 core \
+layout(location = 0) in vec3 aPos; \
+void main() \
+{ \
+	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); \
+}"; 
+
+const char* fragmentShaderSource = "#version 330 core \
+out vec4 FragColor; \
+void main() \
+{ \
+	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \
+}";
+
 int main() {
 	/*
 		Because of their parallel nature, graphics cards of
@@ -10,6 +24,38 @@ int main() {
 		quickly process your data within the graphics pipeline 
 		by running small programs on the GPU for each step of the pipeline. 
 		These small programs are called shaders.
+		Shaders are written in the OpenGL Shading Language (GLSL)
 	*/
+
+	//vertex input, must be normalized (between -1 ,  1) all in NDC
+	//Normalized Device Coordinates
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f,  0.5f, 0.0f
+	};
+
+	unsigned int VBO;
+	//this is an object initiation
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	// From that point on any buffer calls we make (on the GL_ARRAY_BUFFER target) will be used to configure the currently bound buffer, which is VBO.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//now the data is copied in the memory of graphic card
+
+	//compile vertex shader
+	unsigned int vertexShader;
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+	//compile fragment shader
+	unsigned int fragmentShader;
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+
+
 	return 0;
 }
