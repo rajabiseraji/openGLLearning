@@ -55,8 +55,20 @@ int main() {
 	//render loop: a while that doesn't let the application to quit before it's explicitly told to
 	while (!glfwWindowShouldClose(window)) {
 		//makes sure the escape key is not pressed
+		//input happens here
 		processInput(window);
 
+		//rendering
+		// At the start of each render iteration we always want to clear the screen otherwise we would still see the results from the previous iteration (this could be the effect you're looking for, but usually you don't)
+		//we also set a color via glClearColor to clear the screen with
+		//a state setting function
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		//now clear the buffer with mentioned values
+		//a state using function
+		glClear(GL_COLOR_BUFFER_BIT);
+
+
+		//reactivity with callbacks
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
