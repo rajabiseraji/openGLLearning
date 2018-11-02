@@ -44,6 +44,7 @@ int main() {
 	//now the data is copied in the memory of graphic card
 
 	//compile vertex shader
+	//this one stores an ID to the vertexShader object in our State machine
 	unsigned int vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -57,8 +58,11 @@ int main() {
 	glCompileShader(fragmentShader);
 
 	//linking shaders
+	//To use the recently compiled shaders we have to link them to a shader program object and then activate this shader program when rendering objects. 
+	//this again is an ID to shaderprogram in our state
 	unsigned int shaderProgram;
 	shaderProgram = glCreateProgram();
+	//attach the previously compiled shaders to the shaderPorgram
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
